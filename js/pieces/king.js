@@ -3,8 +3,8 @@
 	
 	var Vector = Chess.Utils.Vector;
 	
-	var King = Chess.King = function () {
-		
+	var King = Chess.King = function (color) {
+		Chess.SteppingPiece.call(this, color);
 	};
 	
 	King.prototype.deltas = function () {

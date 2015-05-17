@@ -3,8 +3,8 @@
 	
 	var Vector = Chess.Utils.Vector;
 	
-	var Bishop = Chess.Bishop = function () {
-		
+	var Bishop = Chess.Bishop = function (color) {
+		Chess.SlidingPiec.call(this, color);
 	};
 	
 	Bishop.prototype.deltas = function () {

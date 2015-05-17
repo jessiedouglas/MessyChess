@@ -3,8 +3,8 @@
 	
 	var Vector = Chess.Utils.Vector;
 	
-	var Queen = Chess.Queen = function () {
-		
+	var Queen = Chess.Queen = function (color) {
+		Chess.SlidingPiece.call(this, color);
 	};
 	
 	Queen.prototype.deltas = function () {

@@ -1,7 +1,8 @@
 ;(function () {
 	var Chess = window.Chess = window.Chess || {};
 	
-	var Knight = Chess.Knight = function () {
+	var Knight = Chess.Knight = function (color) {
+		Chess.SteppingPiece.call(this, color);
 	};
 	
 	Knight.prototype.deltas = function () {

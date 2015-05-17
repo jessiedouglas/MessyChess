@@ -1,13 +1,13 @@
 ;(function (){
 	var Chess = window.Chess = window.Chess || {};
 
-	Chess.inherits = function (parent, child) {
+	var Utils = Chess.Utils = {};
+	
+	Chess.Utils.inherits = function (parent, child) {
 		function Surrogate() = {};
 		Surrogate.prototype = parent.prototype;
 		child.prototype = new Surrogate();
 	};
-
-	var Utils = Chess.Utils = {};
 
 	var Vector = Utils.Vector = function (x, y) {
 		this.x = x

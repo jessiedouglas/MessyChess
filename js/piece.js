@@ -67,6 +67,11 @@
 		return [];
 	};
 	
+	Piece.prototype.calculateMostValuableMove = function (moves) {
+		// TODO: Add an actual algorithm.
+		return moves[0];
+	};
+	
 	
 	var SlidingPiece = Chess.SlidingPiece = function (color) {
 		// Instantiates a sliding piece (i.e. Queen, Bishop, or Rook).

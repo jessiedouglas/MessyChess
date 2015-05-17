@@ -2,9 +2,9 @@
 	var Chess = window.Chess = window.Chess || {};
 
 	var Utils = Chess.Utils = {};
-	
+
 	Chess.Utils.inherits = function (parent, child) {
-		function Surrogate() = {};
+		function Surrogate() {};
 		Surrogate.prototype = parent.prototype;
 		child.prototype = new Surrogate();
 	};

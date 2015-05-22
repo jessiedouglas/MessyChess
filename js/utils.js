@@ -3,10 +3,11 @@
 
 	var Utils = Chess.Utils = {};
 
-	Chess.Utils.inherits = function (parent, child) {
+	Chess.Utils.inherits = function (Parent, Child) {
 		function Surrogate() {};
-		Surrogate.prototype = parent.prototype;
-		child.prototype = new Surrogate();
+		Surrogate.prototype = Parent.prototype;
+		Child.prototype = new Surrogate();
+		Child.prototype.constructor = Child;
 	};
 
 	var Vector = Utils.Vector = function (x, y) {

@@ -1,6 +1,6 @@
 ;(function () {
 	Chess = window.Chess = window.Chess || {};
-	
+
 	var Vector = Chess.Utils.Vector;
 
 	var Board = Chess.Board = function () {
@@ -27,15 +27,15 @@
 		var backRow = [
 			"Rook", "Knight", "Bishop", "Queen", "King", "Bishop", "Knight", "Rook"
 		];
-		
-		for (var x = 0; x < backRow.length; x++) {	
+
+		for (var x = 0; x < backRow.length; x++) {
 			pieces = [
 				new Chess[backRow[x]]("B", new Vector(x, 0)),
 			  new Chess[backRow[x]]("W", new Vector(x, 7)),
 				new Chess.Pawn("B", new Vector(x, 1)),
 				new Chess.Pawn("W", new Vector(x, 6)),
 			];
-			
+
 			pieces.forEach(function (piece) {
 				pos = piece.position;
 				// Add piece to the board.
@@ -65,21 +65,21 @@
 	Board.prototype.isEmptyAt = function (position) {
 		return this.square(position).piece === null;
 	};
-	
+
 	Board.prototype.isOffBoard = function (position) {
 		var xOff = position.x < 0 || position.x > 7;
 		var yOff = position.y < 0 || position.y > 7;
 		return xOff || yOff;
 	};
-	
+
 	Board.prototype.isWon = function () {
 		// body...
 	};
-	
+
 	Board.prototype.isDraw = function () {
 		// body...
 	};
-	
+
 	Board.prototype.deepDup = function () {
 		var pos, piece, pieceType, newPiece;
 		var newBoard = new Board();
@@ -97,22 +97,22 @@
 				}
 			};
 		};
-		
+
 		return newBoard;
 	};
-	
+
 	Board.prototype.render = function () {
 		this.el.innerHTML = "";
-		
+
 		var squares = Chess.board.squares;
 		for (var i = 0; i < squares.length; i++) {
 			this.renderRow(squares[i], i);
 		};
 	};
-	
+
 	Board.prototype.renderRow = function (row, row_i) {
 		var position, piece, image, html, el, fullText;
-		
+
 		for (var j = 0; j < row.length; j++) {
 			position = new Vector(j, row_i);
 			piece = Chess.board.square(position).piece;

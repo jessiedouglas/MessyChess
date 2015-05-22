@@ -3,7 +3,7 @@
 
 	var Vector = Chess.Utils.Vector;
 
-	var Bishop = Chess.Bishop = function (color, position) {
+	var Bishop = Chess.Bishop = function Bishop(color) {
 		// Instantiates a bishop.
 		Chess.SlidingPiece.call(this, color, position);
 	};
@@ -15,7 +15,7 @@
 		// current position) that a bishop can make.
 		return Chess.Piece.DIAG_DELTAS;
 	};
-	
+
 	Bishop.prototype.image = function () {
 		var text = (this.color == "W" ? "♗" : "♝");
 		return document.createTextNode(text);

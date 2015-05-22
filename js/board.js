@@ -22,7 +22,8 @@
 	};
 
 	Board.prototype.conjurePieces = function () {
-		var pieces, pos;
+		// Create pieces, add them to the board, and add them to each team's roster.
+		var pieces, pos, team;
 		var backRow = [
 			"Rook", "Knight", "Bishop", "Queen", "King", "Bishop", "Knight", "Rook"
 		];
@@ -37,8 +38,11 @@
 			
 			pieces.forEach(function (piece) {
 				pos = piece.position;
+				// Add piece to the board.
 				this.square(pos).setPiece(piece);
-				// TODO Pass piece to team?
+				// Add piece to team's roster.
+				team = (piece.color === "W" ? Chess.whiteTeam : Chess.blackTeam);
+				team.pieces.push(piece);
 			}.bind(this));
 		}
 	};

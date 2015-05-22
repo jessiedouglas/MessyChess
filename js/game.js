@@ -1,9 +1,8 @@
 ;(function () {
 	Chess = window.Chess = window.Chess || {};
 	
-	var Game = Chess.Game = function (player1, player2) {
-		this.players = [player1, player2];
-		this.currentPlayer = player1;
+	var Game = Chess.Game = function () {
+		this.currentPlayer = Chess.whiteTeam;
 		Chess.board = new Chess.Board();
 	};
 	
@@ -17,10 +16,10 @@
 	};
 	
 	Game.prototype.switchCurrentPlayer = function () {
-		if (this.currentPlayer === this.players[0]) {
-			return this.players[1];
+		if (this.currentPlayer.color === "W") {
+			return Chess.blackTeam;
 		}
-		return this.players[0];
+		return Chess.whiteTeam;
 	};
 	
 	Game.prototype.isOver = function () {

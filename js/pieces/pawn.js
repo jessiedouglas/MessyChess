@@ -18,9 +18,7 @@
 	
 	Pawn.prototype.getMoves = function () {
 		// Gets all possible moves for the pawn. This includes rules about taking
-		// other pieces.
-	  var deltas = this.deltas();
-		
+		// other pieces.		
 		var moves = [];
 		if (!this.hasMoved) {
 			var longMove = Utils.add(this.position, new Vector(0, this.dir * 2));
@@ -43,7 +41,7 @@
 			if (piece && piece.color !== this.color) {
 				moves.push(move);
 			}
-		}).bind(this);
+		}.bind(this));
 		
 		return moves;
 	};

@@ -8,6 +8,7 @@
 	</div>
 	<script src="js/utils.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/board.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/team.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/piece.js" type="text/javascript" charset="utf-8"></script>
   <script src="js/pieces/bishop.js" type="text/javascript" charset="utf-8"></script>
   <script src="js/pieces/king.js" type="text/javascript" charset="utf-8"></script>
@@ -16,4 +17,16 @@
   <script src="js/pieces/queen.js" type="text/javascript" charset="utf-8"></script>
   <script src="js/pieces/rook.js" type="text/javascript" charset="utf-8"></script>
   <script src="js/game.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		// document.ready(function () {
+			var Chess = window.Chess,
+			    Team = Chess.Team,
+			    Game = Chess.Game;
+
+			Chess.whiteTeam = new Team("W");
+			Chess.blackTeam = new Team("B");
+			var game = new Game();
+// 			game.play();
+// 		});
+	</script>
 </body>

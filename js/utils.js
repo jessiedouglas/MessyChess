@@ -20,6 +20,12 @@
 
 		return new Vector(newX, newY);
 	};
+	
+	var equal = Utils.equal = function(vector1, vector2) {
+		var xEqual = vector1.x === vector2.x;
+		var yEqual = vector1.y === vector2.y;
+		return xEqual && yEqual;
+	};
 
 	var scale = Utils.scale = function(vector, scalar) {
 		var newX = vector.x * scalar;

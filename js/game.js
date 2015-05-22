@@ -11,18 +11,20 @@
 		
 		while (!this.isOver()) {
 			this.currentPlayer.move();
-			this.currentPlayer = this.switchCurrentPlayer();
+			Chess.board.render();
+			this.switchCurrentPlayer();
 		};
 	};
 	
 	Game.prototype.switchCurrentPlayer = function () {
 		if (this.currentPlayer.color === "W") {
-			return Chess.blackTeam;
+			this.currentPlayer = Chess.blackTeam;
+		} else {
+		  this.currentPlayer = Chess.whiteTeam;
 		}
-		return Chess.whiteTeam;
 	};
 	
 	Game.prototype.isOver = function () {
-		// body...
+		return Chess.board.isWon() || Chess.board.isDraw();
 	};
 })();

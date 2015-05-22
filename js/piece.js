@@ -1,8 +1,6 @@
 ;(function () {
 	var Chess = window.Chess = window.Chess || {};
-	
-	var board = Chess.board;
-	
+		
 	var Vector = Chess.Utils.Vector;
 	
 	var Piece = Chess.Piece = function (color, position) {
@@ -40,7 +38,7 @@
 		// Removes any moves that fall off the board.
 		var onBoardMoves = [];
 		moves.forEach(function (move) {
-			if (!board.isOffBoard(move)) {
+			if (!Chess.board.isOffBoard(move)) {
 				onBoardMoves.push(move);
 			}
 		});
@@ -53,11 +51,11 @@
 		// color as the current piece.
 		var unoccupiedMoves = [];
 		moves.forEach(function (move) {
-			var piece = board.square(move).piece
+			var piece = Chess.board.square(move).piece
 			if (!piece || piece.color !== this.color) {
 				unoccupiedMoves.push(move);
 			}
-		}).bind(this);
+		}.bind(this));
 		
 		return unoccupiedMoves;
 	};
@@ -70,6 +68,24 @@
 	Piece.prototype.mostValuableMove = function (moves) {
 		// TODO: Add an actual algorithm.
 		return moves[0];
+	};
+	
+	Piece.prototype.getPieceType = function () {
+		var pieceType;
+		[
+			Chess.King,
+			Chess.Queen,
+			Chess.Bishop,
+			Chess.Knight,
+			Chess.Rook,
+			Chess.Pawn
+		].forEach(function (className) {
+			if (this instanceof className) {
+				pieceType = className;
+			}
+		}.bind(this));
+		
+		return pieceType;
 	};
 	
 	
@@ -88,13 +104,13 @@
 		var moves = [];
 		deltas.forEach(function (delta) {
 			var current = this.position;
-			while (board.isEmptyAt(current) && !board.isOffBoard(current)) {
+			while (Chess.board.isEmptyAt(current) && !Chess.board.isOffBoard(current)) {
 				// Advance the position in the direction of delta; 
 				// add the new position to moves.
 				current = Chess.Utils.add(this.position, delta);
 				moves.push(current);
 			};
-		}).bind(this);
+		}.bind(this));
 		
 		return moves;
 	};
@@ -116,7 +132,7 @@
 		deltas.forEach(function (delta) {
 			var move = Chess.Utils.add(this.position, delta);
 			moves.push(move);
-		}).bind(this);
+		}.bind(this));
 		
 		return moves;
 	};

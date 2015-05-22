@@ -51,15 +51,51 @@
 		return this.squares[position.y][position.x];
 	};
 
-	Board.prototype.movePiece = function (start_sq, end_sq) {
-		var piece = this.square(start_sq).piece;
+	Board.prototype.movePiece = function (startPos, endPos) {
+		var piece = this.square(startPos).piece;
 
-		this.square(start_sq).setPiece(null);
-		this.square(end_sq).setPiece(piece);
+		this.square(startPos).setPiece(null);
+		this.square(endPos).setPiece(piece);
+		piece.position = endPos;
 	};
 
 	Board.prototype.isEmptyAt = function (position) {
 		return this.square(position).piece === null;
+	};
+	
+	Board.prototype.isOffBoard = function (position) {
+		var xOff = position.x < 0 || position.x > 7;
+		var yOff = position.y < 0 || position.y > 7;
+		return xOff || yOff;
+	};
+	
+	Board.prototype.isWon = function () {
+		// body...
+	};
+	
+	Board.prototype.isDraw = function () {
+		// body...
+	};
+	
+	Board.prototype.deepDup = function () {
+		var pos, piece, pieceType, newPiece;
+		var newBoard = new Board();
+		for (var y = 0; y < this.squares.length; y++) {
+			for (var x = 0; x < this.squares[y].length; x++) {
+				pos = new Vector(x, y);
+				piece = this.square(pos).piece;
+				console.log(piece);
+				if (!!piece) {
+					pieceType = piece.getPieceType();
+					newPiece = new pieceType(piece.color, pos);
+					newBoard.square(pos).setPiece(newPiece);
+				} else {
+					newBoard.square(pos).setPiece(null);
+				}
+			};
+		};
+		
+		return newBoard;
 	};
 	
 	Board.prototype.render = function () {
@@ -82,7 +118,6 @@
 			this.el.insertAdjacentElement('beforeend', html);
 		};
 	};
-
 
 	var Square = Chess.Square = function (piece) {
 		this.piece = piece || null;

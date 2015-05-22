@@ -5,10 +5,10 @@
 	
 	var Vector = Chess.Utils.Vector;
 	
-	var Piece = Chess.Piece = function (color) {
+	var Piece = Chess.Piece = function (color, position) {
 		// Instantiates a new piece.
 		this.color = color;
-		this.position = null; //Piece must have its initial position passed to it.
+		this.position = position;
 	};
 	
 	Piece.DIAG_DELTAS = [
@@ -73,9 +73,9 @@
 	};
 	
 	
-	var SlidingPiece = Chess.SlidingPiece = function (color) {
+	var SlidingPiece = Chess.SlidingPiece = function (color, position) {
 		// Instantiates a sliding piece (i.e. Queen, Bishop, or Rook).
-		Piece.call(this, color);
+		Piece.call(this, color, position);
 	};
 	
 	Chess.Utils.inherits(Piece, SlidingPiece);
@@ -101,9 +101,9 @@
 	
 	
 	
-	var SteppingPiece = Chess.SteppingPiece = function (color) {
+	var SteppingPiece = Chess.SteppingPiece = function (color, position) {
 		// Instantiates a stepping piece (i.e. King or Knight).
-		Piece.call(this, color);
+		Piece.call(this, color, position);
   };
 	
 	Chess.Utils.inherits(Piece, SteppingPiece);

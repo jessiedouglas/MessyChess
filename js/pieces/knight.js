@@ -1,9 +1,9 @@
 ;(function () {
 	var Chess = window.Chess = window.Chess || {};
 	
-	var Knight = Chess.Knight = function (color) {
+	var Knight = Chess.Knight = function (color, position) {
 		// Instantiates a knight.
-		Chess.SteppingPiece.call(this, color);
+		Chess.SteppingPiece.call(this, color, position);
 	};
 		
 	Chess.Utils.inherits(Chess.SteppingPiece, Knight);

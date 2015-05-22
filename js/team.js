@@ -3,6 +3,7 @@
 
   var Team = Chess.Team = function (color) {
     this.color = color;
+		this.pieces = [];
   };
   
 })();

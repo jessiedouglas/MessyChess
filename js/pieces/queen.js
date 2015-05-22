@@ -3,9 +3,9 @@
 	
 	var Vector = Chess.Utils.Vector;
 	
-	var Queen = Chess.Queen = function (color) {
+	var Queen = Chess.Queen = function (color, position) {
 		// Instantiates a queen.
-		Chess.SlidingPiece.call(this, color);
+		Chess.SlidingPiece.call(this, color, position);
 	};
 	
 	Chess.Utils.inherits(Chess.SlidingPiece, Queen);

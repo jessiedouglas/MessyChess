@@ -7,9 +7,9 @@
 
 	var Vector = Utils.Vector;
 
-	var Pawn = Chess.Pawn = function (color) {
+	var Pawn = Chess.Pawn = function (color, position) {
 		// Instantiates a pawn.
-		Chess.Piece.call(this, color);
+		Chess.Piece.call(this, color, position);
 		this.hasMoved = false;
 		this.dir = (this.color === "B" ? 1 : -1);
 	};	

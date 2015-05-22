@@ -3,9 +3,9 @@
 	
 	var Vector = Chess.Utils.Vector;
 	
-	var King = Chess.King = function (color) {
+	var King = Chess.King = function (color, position) {
 		// Instantiates a king.
-		Chess.SteppingPiece.call(this, color);
+		Chess.SteppingPiece.call(this, color, position);
 	};
 
 	Chess.Utils.inherits(Chess.SteppingPiece, King);

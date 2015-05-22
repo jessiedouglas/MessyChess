@@ -3,9 +3,9 @@
 
 	var Vector = Chess.Utils.Vector;
 
-	var Bishop = Chess.Bishop = function (color) {
+	var Bishop = Chess.Bishop = function (color, position) {
 		// Instantiates a bishop.
-		Chess.SlidingPiece.call(this, color);
+		Chess.SlidingPiece.call(this, color, position);
 	};
 
 	Chess.Utils.inherits(Chess.SlidingPiece, Bishop);

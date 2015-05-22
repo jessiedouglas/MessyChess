@@ -22,19 +22,24 @@
 	};
 
 	Board.prototype.conjurePieces = function () {
+		var pieces, pos;
 		var backRow = [
 			"Rook", "Knight", "Bishop", "Queen", "King", "Bishop", "Knight", "Rook"
 		];
-		for (var x = 0; x < backRow.length; x++) {
-			var blackPiece = new Chess[backRow[x]]("B");
-			var whitePiece = new Chess[backRow[x]]("W");
-			//TODO Pass piece to team?
+		
+		for (var x = 0; x < backRow.length; x++) {	
+			pieces = [
+				new Chess[backRow[x]]("B", new Vector(x, 0)),
+			  new Chess[backRow[x]]("W", new Vector(x, 7)),
+				new Chess.Pawn("B", new Vector(x, 1)),
+				new Chess.Pawn("W", new Vector(x, 6)),
+			];
 			
-			this.square(new Vector(x, 0)).setPiece(blackPiece);
-			this.square(new Vector(x, 1)).setPiece(new Chess.Pawn("B"))
-
-			this.square(new Vector(x, 7)).setPiece(whitePiece);
-			this.square(new Vector(x, 6)).setPiece(new Chess.Pawn("W"));
+			pieces.forEach(function (piece) {
+				pos = piece.position;
+				this.square(pos).setPiece(piece);
+				// TODO Pass piece to team?
+			}.bind(this));
 		}
 	};
 

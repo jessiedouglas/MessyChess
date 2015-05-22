@@ -1,9 +1,9 @@
 ;(function () {
 	var Chess = window.Chess = window.Chess || {};
 	
-	var Rook = Chess.Rook = function (color) {
+	var Rook = Chess.Rook = function (color, position) {
 		// Instantiates a rook.
-		Chess.SlidingPiece.call(this, color);
+		Chess.SlidingPiece.call(this, color, position);
 	};
 		
 	Chess.Utils.inherits(Chess.SlidingPiece, Rook);

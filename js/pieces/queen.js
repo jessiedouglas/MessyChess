@@ -8,11 +8,16 @@
 		Chess.SlidingPiece.call(this, color);
 	};
 	
+	Chess.Utils.inherits(Chess.SlidingPiece, Queen);
+	
 	Queen.prototype.deltas = function () {
 		// Returns all the potential changes in position (i.e. moves relative to the
 		// current position) that a queen can make.
 		return Chess.Piece.DIAG_DELTAS.concat(Chess.Piece.ORTHO_DELTAS);
 	};
-			
-	Chess.Utils.inherits(Chess.SlidingPiece, Queen);
+	
+	Queen.prototype.image = function () {
+		var text = (this.color == "W" ? "♕" : "♛");
+		return document.createTextNode(text);
+	};
 })();

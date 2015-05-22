@@ -10,8 +10,8 @@
 	};
 
 	var Vector = Utils.Vector = function (x, y) {
-		this.x = x
-		this.y = y
+		this.x = x;
+		this.y = y;
 	};
 
 	var add = Utils.add = function(vector1, vector2) {
@@ -27,5 +27,19 @@
 
 		return new Vector(newX, newY);
 	};
-
+	
+	
+  var Template = Utils.Template = {};
+	
+	Template.squareView = function (position, image) {
+		var image = image || document.createTextNode('');
+		var posValue = position.x + position.y;
+		var className = posValue % 2 == 0 ? "white-square" : "black-square";
+		var idName = '' + position.x + position.y;
+		var element = document.createElement("div");
+		element.className = className;
+		element.id = idName;
+		element.appendChild(image);
+		return element;
+	};
 })();

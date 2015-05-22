@@ -5,6 +5,8 @@
 		// Instantiates a knight.
 		Chess.SteppingPiece.call(this, color);
 	};
+		
+	Chess.Utils.inherits(Chess.SteppingPiece, Knight);
 	
 	Knight.prototype.deltas = function () {
 		// Returns all the potential changes in position (i.e. moves relative to the
@@ -20,6 +22,9 @@
 			new Vector(-1, -2),
 		];
 	};
-		
-	Chess.Utils.inherits(Chess.SteppingPiece, Knight);
+	
+	Knight.prototype.image = function () {
+		var text = (this.color == "W" ? "♘" : "♞");
+		return document.createTextNode(text);
+	};
 })();

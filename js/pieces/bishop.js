@@ -5,14 +5,19 @@
 
 	var Bishop = Chess.Bishop = function (color) {
 		// Instantiates a bishop.
-		Chess.SlidingPiec.call(this, color);
+		Chess.SlidingPiece.call(this, color);
 	};
+
+	Chess.Utils.inherits(Chess.SlidingPiece, Bishop);
 
 	Bishop.prototype.deltas = function () {
 		// Returns all the potential changes in position (i.e. moves relative to the
 		// current position) that a bishop can make.
 		return Chess.Piece.DIAG_DELTAS;
 	};
-
-	Chess.inherits(Chess.SlidingPiece, Bishop);
+	
+	Bishop.prototype.image = function () {
+		var text = (this.color == "W" ? "♗" : "♝");
+		return document.createTextNode(text);
+	};
 })();

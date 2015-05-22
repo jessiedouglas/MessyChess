@@ -67,7 +67,7 @@
 		return [];
 	};
 	
-	Piece.prototype.calculateMostValuableMove = function (moves) {
+	Piece.prototype.mostValuableMove = function (moves) {
 		// TODO: Add an actual algorithm.
 		return moves[0];
 	};
@@ -77,6 +77,8 @@
 		// Instantiates a sliding piece (i.e. Queen, Bishop, or Rook).
 		Piece.call(this, color);
 	};
+	
+	Chess.Utils.inherits(Piece, SlidingPiece);
 	
 	SlidingPiece.prototype.getMoves = function () {
 		// Gets moves for sliding pieces. Includes moves for occupied spaces of 
@@ -97,13 +99,14 @@
 		return moves;
 	};
 	
-	Chess.Utils.inherits(Piece, SlidingPiece);
 	
 	
 	var SteppingPiece = Chess.SteppingPiece = function (color) {
 		// Instantiates a stepping piece (i.e. King or Knight).
 		Piece.call(this, color);
   };
+	
+	Chess.Utils.inherits(Piece, SteppingPiece);
 	
 	SteppingPiece.prototype.getMoves = function () {
 		// Gets moves for stepping pieces. Includes all occupied moves.
@@ -117,6 +120,4 @@
 		
 		return moves;
 	};
-	
-	Chess.Utils.inherits(Piece, SteppingPiece);
 })();

@@ -9,10 +9,12 @@
 
 	var Pawn = Chess.Pawn = function (color) {
 		// Instantiates a pawn.
-		Piece.call(this, color);
+		Chess.Piece.call(this, color);
 		this.hasMoved = false;
 		this.dir = (this.color === "B" ? 1 : -1);
-	};
+	};	
+	
+	Chess.Utils.inherits(Chess.Piece, Pawn);
 	
 	Pawn.prototype.getMoves = function () {
 		// Gets all possible moves for the pawn. This includes rules about taking
@@ -45,6 +47,9 @@
 		
 		return moves;
 	};
-
-	Chess.Utils.inherits(Chess.Piece, Pawn);
+	
+	Pawn.prototype.image = function () {
+		var text = (this.color == "W" ? "♙" : "♟");
+		return document.createTextNode(text);
+	};
 })();

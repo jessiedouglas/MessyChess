@@ -5,12 +5,17 @@
 		// Instantiates a rook.
 		Chess.SlidingPiece.call(this, color);
 	};
+		
+	Chess.Utils.inherits(Chess.SlidingPiece, Rook);
 	
 	Rook.prototype.deltas = function () {
 		// Returns all the potential changes in position (i.e. moves relative to the
 		// current position) that a rook can make.
 		return Chess.Piece.ORTHO_DELTAS;
 	};
-		
-	Chess.Utils.inherits(Chess.SlidingPiece, Rook);
+	
+	Rook.prototype.image = function () {
+		var text = (this.color == "W" ? "♖" : "♜");
+		return document.createTextNode(text);
+	};
 })();

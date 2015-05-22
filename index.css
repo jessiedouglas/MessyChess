@@ -1,0 +1,36 @@
+/* RESET */
+html, body, div {
+	margin: 0;
+	border: 0;
+	padding: 0;
+	text-align: baseline;
+	font: inherit;
+	color: inherit;
+	background: transparent;
+	text-decoration: none;
+}
+
+.group:after {
+	display: block;
+	content: "";
+	clear: both;
+}
+
+/* BOARD */
+div#chessboard {
+	width: 600px;
+	border: 1px solid black;
+}
+
+div.black-square, div.white-square {
+	width: 73px;
+	height: 73px;
+	border: 1px solid black;
+	float: left;
+	font-size: 50px;
+	text-align: center;
+}
+
+div.black-square {
+	background: #ddd;
+}

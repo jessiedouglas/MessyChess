@@ -54,6 +54,8 @@
 	};
 	
 	Board.prototype.render = function () {
+		this.el.innerHTML = "";
+		
 		var squares = Chess.board.squares;
 		for (var i = 0; i < squares.length; i++) {
 			this.renderRow(squares[i], i);
@@ -66,7 +68,7 @@
 		for (var j = 0; j < row.length; j++) {
 			position = new Vector(j, row_i);
 			piece = Chess.board.square(position).piece;
-			image = !!piece ? piece.image() : ''
+			image = !!piece ? piece.image() : '';
 			html = Chess.Utils.Template.squareView(position, image);
 			this.el.insertAdjacentElement('beforeend', html);
 		};

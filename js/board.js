@@ -3,10 +3,10 @@
 
 	var Vector = Chess.Utils.Vector;
 
-	var Board = Chess.Board = function () {
+	var Board = Chess.Board = function (shouldPopulateTeams) {
 		this.el = document.getElementById("chessboard");
 		this.buildSquares();
-		this.conjurePieces();
+		this.conjurePieces(shouldPopulateTeams);
 	};
 
 	Board.prototype.buildSquares = function () {
@@ -21,8 +21,11 @@
 		}
 	};
 
-	Board.prototype.conjurePieces = function () {
+	Board.prototype.conjurePieces = function (shouldPopulateTeams) {
 		// Create pieces, add them to the board, and add them to each team's roster.
+		if (shouldPopulateTeams === undefined) {
+			shouldPopulateTeams = true;
+		}
 		var pieces, pos, team;
 		var backRow = [
 			"Rook", "Knight", "Bishop", "Queen", "King", "Bishop", "Knight", "Rook"
@@ -41,10 +44,12 @@
 				// Add piece to the board.
 				this.square(pos).setPiece(piece);
 				// Add piece to team's roster.
-				team = (piece.color === "W" ? Chess.whiteTeam : Chess.blackTeam);
-				team.pieces.push(piece);
-				if (piece.getPieceType() === Chess.King) {
-					team.king = piece;
+				if (shouldPopulateTeams) {
+					team = (piece.color === "W" ? Chess.whiteTeam : Chess.blackTeam);
+					team.pieces.push(piece);
+					if (piece.getPieceType() === Chess.King) {
+						team.king = piece;
+					}
 				}
 			}.bind(this));
 		}
@@ -82,12 +87,11 @@
 
 	Board.prototype.deepDup = function () {
 		var pos, piece, pieceType, newPiece;
-		var newBoard = new Board();
+		var newBoard = new Board(false);
 		for (var y = 0; y < this.squares.length; y++) {
 			for (var x = 0; x < this.squares[y].length; x++) {
 				pos = new Vector(x, y);
 				piece = this.square(pos).piece;
-				console.log(piece);
 				if (!!piece) {
 					pieceType = piece.getPieceType();
 					newPiece = new pieceType(piece.color, pos);

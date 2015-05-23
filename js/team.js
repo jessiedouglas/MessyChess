@@ -8,20 +8,8 @@
   };
   
 	Team.prototype.move = function () {
-		if (this.isMated()) {
-			var fakeBoard;
-			var realBoard = Chess.board;
-			var possibleKingMoves = this.king.getValidMoves();
-			var unmatedKingMoves = [];
-			possibleKingMoves.forEach(function (move) {
-				var fakeBoard = Chess.board.deepDup();
-				Chess.board = fakeBoard;
-				Chess.board.movePiece(this.king.position, move);
-				if (!this.isMated()) {
-					unmatedKingMoves.push(move);
-				}
-				Chess.board = realBoard;
-			}.bind(this));
+		if (this.isInCheck()) {
+			
 			
 			// move the king
 		} else {
@@ -29,16 +17,51 @@
 		}
 	};
 	
-	Team.prototype.isMated = function () {
-		var opponent = (this.color === "W" ? Chess.blackTeam : Chess.whiteTeam);
+	Team.prototype.isInCheck = function () {
+		var opponent = this.opponent();
+		var checked = false;
 		opponent.allMoves().forEach(function (move) {
 			if (Chess.Utils.equal(move, this.king.position)) {
-				return true;
+				checked = true;
 			}
 		}.bind(this));
 		
-		return false;
+		return checked;
 	};
+	
+	Team.prototype.validInCheckMoves = function () {
+		var fakeBoard, fakeKing;
+		var realBoard = Chess.board;
+		var realKing = this.king;
+		var possibleKingMoves = this.king.getValidMoves();
+		var outOfCheckKingMoves = [];
+		
+		possibleKingMoves.forEach(function (move) {
+			// Make a duplicate board for experimentation
+			fakeBoard = Chess.board.deepDup();
+			// Set this.king and Chess.board to correspond with our fake board.
+			this.king = fakeBoard.square(this.king.position).piece
+			Chess.board = fakeBoard;
+			
+			Chess.board.movePiece(this.king.position, move);
+			if (!this.isInCheck()) {
+				outOfCheckKingMoves.push(move);
+			}
+		}.bind(this));
+		
+		// Reset Chess.board and this.king to the real stuff.
+		Chess.board = realBoard;
+		this.king = realKing;
+		
+		return outOfCheckKingMoves;
+	};
+	
+	Team.prototype.opponent = function () {
+		if (this.color === "W") {
+			return Chess.blackTeam;
+		}
+		return Chess.whiteTeam;
+ 	};
 	
 	Team.prototype.allMoves = function () {
 		// TODO: Optimize so this isn't calculated multiple times per turn.

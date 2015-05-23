@@ -71,21 +71,7 @@
 	};
 
 	Piece.prototype.getPieceType = function () {
-		var pieceType;
-		[
-			Chess.King,
-			Chess.Queen,
-			Chess.Bishop,
-			Chess.Knight,
-			Chess.Rook,
-			Chess.Pawn
-		].forEach(function (className) {
-			if (this instanceof className) {
-				pieceType = className;
-			}
-		}.bind(this));
-
-		return pieceType;
+		return this.constructor;
 	};
 
 
@@ -104,12 +90,13 @@
 		var moves = [];
 		deltas.forEach(function (delta) {
 			var current = Chess.Utils.add(this.position, delta);
-			while (Chess.board.isEmptyAt(current) && !Chess.board.isOffBoard(current)) {
+			while (!Chess.board.isOffBoard(current) && Chess.board.isEmptyAt(current)) {
 				// Advance the position in the direction of delta;
 				// add the new position to moves.
 				moves.push(current);
-				current = Chess.Utils.add(this.position, delta);
+				current = Chess.Utils.add(current, delta);
 			};
+			moves.push(current);
 		}.bind(this));
 
 		return moves;

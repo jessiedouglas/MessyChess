@@ -14,17 +14,17 @@
 			Chess.board.render();
 			this.switchCurrentPlayer();
 		};
-	};
-	
-	Game.prototype.switchCurrentPlayer = function () {
-		if (this.currentPlayer.color === "W") {
-			this.currentPlayer = Chess.blackTeam;
-		} else {
-		  this.currentPlayer = Chess.whiteTeam;
+		
+		if (Chess.board.isWon()) {
+			var winner = this.currentPlayer.opponent();
 		}
 	};
 	
+	Game.prototype.switchCurrentPlayer = function () {
+		this.currentPlayer = this.currentPlayer.opponent();
+	};
+	
 	Game.prototype.isOver = function () {
-		return Chess.board.isWon() || Chess.board.isDraw();
+		return Chess.board.isWon(this.currentPlayer) || Chess.board.isDraw();
 	};
 })();

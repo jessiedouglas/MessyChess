@@ -9,8 +9,6 @@
   
 	Team.prototype.move = function () {
 		if (this.isInCheck()) {
-			
-			
 			// move the king
 		} else {
 			

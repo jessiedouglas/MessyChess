@@ -7,6 +7,7 @@
 		this.el = document.getElementById("chessboard");
 		this.buildSquares();
 		this.conjurePieces(shouldPopulateTeams);
+		this.hasBeenWon = false;
 	};
 
 	Board.prototype.buildSquares = function () {
@@ -23,9 +24,12 @@
 
 	Board.prototype.conjurePieces = function (shouldPopulateTeams) {
 		// Create pieces, add them to the board, and add them to each team's roster.
+		
+		// Populate teams by default.
 		if (shouldPopulateTeams === undefined) {
 			shouldPopulateTeams = true;
 		}
+		
 		var pieces, pos, team;
 		var backRow = [
 			"Rook", "Knight", "Bishop", "Queen", "King", "Bishop", "Knight", "Rook"
@@ -77,8 +81,13 @@
 		return xOff || yOff;
 	};
 
-	Board.prototype.isWon = function () {
-		// body...
+	Board.prototype.isWon = function (currentPlayer) {
+		if (this.hasBeenWon) {
+			return true;
+		}
+		this.hasBeenWon = currentPlayer.isInCheck() && 
+		                  currentPlayer.validInCheckMoves().length === 0;
+		return this.hasBeenWon;
 	};
 
 	Board.prototype.isDraw = function () {

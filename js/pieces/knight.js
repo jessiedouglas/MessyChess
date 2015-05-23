@@ -1,7 +1,7 @@
 ;(function () {
 	var Chess = window.Chess = window.Chess || {};
 
-	var Knight = Chess.Knight = function Knight(color) {
+	var Knight = Chess.Knight = function Knight(color, position) {
 		// Instantiates a knight.
 		Chess.SteppingPiece.call(this, color, position);
 	};

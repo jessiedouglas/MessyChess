@@ -1,7 +1,7 @@
 ;(function () {
 	var Chess = window.Chess = window.Chess || {};
 
-	var Rook = Chess.Rook = function Rook(color) {
+	var Rook = Chess.Rook = function Rook(color, position) {
 		// Instantiates a rook.
 		Chess.SlidingPiece.call(this, color, position);
 	};

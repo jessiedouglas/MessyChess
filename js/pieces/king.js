@@ -3,7 +3,7 @@
 
 	var Vector = Chess.Utils.Vector;
 
-	var King = Chess.King = function King(color) {
+	var King = Chess.King = function King(color, position) {
 		// Instantiates a king.
 		Chess.SteppingPiece.call(this, color, position);
 	};

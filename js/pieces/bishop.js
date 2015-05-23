@@ -3,7 +3,7 @@
 
 	var Vector = Chess.Utils.Vector;
 
-	var Bishop = Chess.Bishop = function Bishop(color) {
+	var Bishop = Chess.Bishop = function Bishop(color, position) {
 		// Instantiates a bishop.
 		Chess.SlidingPiece.call(this, color, position);
 	};

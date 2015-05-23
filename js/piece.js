@@ -3,7 +3,7 @@
 
 	var Vector = Chess.Utils.Vector;
 
-	var Piece = Chess.Piece = function Piece(color) {
+	var Piece = Chess.Piece = function Piece(color, position) {
 		// Instantiates a new piece.
 		this.color = color;
 		this.position = position;

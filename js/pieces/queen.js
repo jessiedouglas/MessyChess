@@ -3,7 +3,7 @@
 
 	var Vector = Chess.Utils.Vector;
 
-	var Queen = Chess.Queen = function Queen(color) {
+	var Queen = Chess.Queen = function Queen(color, position) {
 		// Instantiates a queen.
 		Chess.SlidingPiece.call(this, color, position);
 	};

@@ -103,12 +103,12 @@
 		
 		var moves = [];
 		deltas.forEach(function (delta) {
-			var current = this.position;
+			var current = Chess.Utils.add(this.position, delta);
 			while (Chess.board.isEmptyAt(current) && !Chess.board.isOffBoard(current)) {
 				// Advance the position in the direction of delta; 
 				// add the new position to moves.
-				current = Chess.Utils.add(this.position, delta);
 				moves.push(current);
+				current = Chess.Utils.add(this.position, delta);
 			};
 		}.bind(this));
 		

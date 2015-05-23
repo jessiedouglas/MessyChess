@@ -22,13 +22,13 @@
 		var moves = [];
 		if (!this.hasMoved) {
 			var longMove = Utils.add(this.position, new Vector(0, this.dir * 2));
-			if (board.isEmptyAt(longMove)) {
+			if (Chess.board.isEmptyAt(longMove)) {
 				moves.push(longMove);
 			}
 		}
 		
 		var shortMove = Utils.add(this.position, new Vector(0, this.dir * 1));
-		if (board.isEmptyAt(shortMove)) {
+		if (Chess.board.isEmptyAt(shortMove)) {
 			moves.push(shortMove);
 		}
 		
@@ -37,8 +37,8 @@
 			new Vector(-1, this.dir * 1)
 		].forEach(function (delta) {
 			var move = Utils.add(this.position, delta);
-			var piece = board.square(move).piece
-			if (piece && piece.color !== this.color) {
+			var square = Chess.board.square(move)
+			if (square && square.piece && square.piece.color !== this.color) {
 				moves.push(move);
 			}
 		}.bind(this));

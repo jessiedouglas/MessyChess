@@ -29,10 +29,10 @@
 		}
 	};
 	
-	Team.prototype.isMated = function (kingPosition) {
+	Team.prototype.isMated = function () {
 		var opponent = (this.color === "W" ? Chess.blackTeam : Chess.whiteTeam);
 		opponent.allMoves().forEach(function (move) {
-			if (Chess.Utils.equal(move, kingPosition)) {
+			if (Chess.Utils.equal(move, this.king.position)) {
 				return true;
 			}
 		}.bind(this));
@@ -44,7 +44,9 @@
 		// TODO: Optimize so this isn't calculated multiple times per turn.
 		var moves = [];
 		this.pieces.forEach(function (piece) {
-			moves.concat(piece.getValidMoves());
+			moves = moves.concat(piece.getValidMoves());
 		});
+		
+		return moves;
 	};
 })();

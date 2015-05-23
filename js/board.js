@@ -43,6 +43,9 @@
 				// Add piece to team's roster.
 				team = (piece.color === "W" ? Chess.whiteTeam : Chess.blackTeam);
 				team.pieces.push(piece);
+				if (piece.getPieceType() === Chess.King) {
+					team.king = piece;
+				}
 			}.bind(this));
 		}
 	};

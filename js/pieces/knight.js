@@ -1,6 +1,8 @@
 ;(function () {
 	var Chess = window.Chess = window.Chess || {};
 	
+	var Vector = Chess.Utils.Vector;
+	
 	var Knight = Chess.Knight = function (color, position) {
 		// Instantiates a knight.
 		Chess.SteppingPiece.call(this, color, position);

@@ -91,7 +91,57 @@
 	};
 
 	Board.prototype.isDraw = function () {
-		// body...
+		// Checks for draws through stalemate and insufficient materials, but not 
+		// through threefold repetition or the fifty move rule.
+		var white = Chess.whiteTeam;
+		var black = Chess.blackTeam;
+		
+		// Check for stalemate.
+		var players = [white, black];
+		for (var i = 0; i < players.length; i++) {
+			if (players[i].allMoves().length === 0 && !players[i].isInCheck()) {
+				return true;
+			} 
+		};
+		
+		// Check for insufficient materials.
+		var first, second;
+		if (white.pieces.length === 1 && black.pieces.length === 1){
+			return true;
+		}
+		if (white.pieces.length == 1 && black.pieces.length == 2) {
+			first = black.pieces[0].getPieceType();
+			second = black.pieces[1].getPieceType();
+			if (first === Chess.Bishop || second === Chess.Bishop) {
+				return true;
+			}
+			if (first === Chess.Knight || second === Chess.Knight) {
+				return true;
+			}
+		}
+		if (white.pieces.length == 2 && black.pieces.length == 1) {
+			first = white.pieces[0].getPieceType();
+			second = white.pieces[1].getPieceType();
+			if (first === Chess.Bishop || second === Chess.Bishop) {
+				return true;
+			}
+			if (first === Chess.Knight || second === Chess.Knight) {
+				return true;
+			}
+		}
+		if (white.pieces.length === 2 && black.pieces.length === 2) {
+			var whiteBishop = white.getBishopIfThereIsOne();
+			var blackBishop = black.getBishopIfThereIsOne();
+			// Check to see if both are on the same color.
+			if (whiteBishop && blackBishop) {
+				var whiteTileColor = whiteBishop.position.x + whiteBishop.position.y;
+				var blackTileColor = blackBishop.position.x + blackBishop.position.y;
+				if (whiteTileColor % 0 === blackTileColor % 0) {
+					return true;
+				}
+			}
+		}
+		return false;
 	};
 
 	Board.prototype.deepDup = function () {
@@ -112,6 +162,19 @@
 		};
 
 		return newBoard;
+	};
+	
+	Board.prototype.toString = function () {
+		var boardString = "", squareString;
+		this.squares.forEach(function (square){
+			if (square.piece) {
+				squareString = square.piece.color + square.piece.constructor.name + ",";
+			} else {
+				squareString = ","
+			}
+			boardString += squareString;
+		});
+		// TODO: Add logic for whether each team can castle.
 	};
 
 	Board.prototype.render = function () {

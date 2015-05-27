@@ -8,11 +8,15 @@
   };
   
 	Team.prototype.move = function () {
+		var position;
 		if (this.isInCheck()) {
 			// move the king
 		} else {
 			
 		}
+		
+		// If a piece has been taken, remove it from the other team's roster.
+		this.opponent().removePieceIfThere(position);
 	};
 	
 	Team.prototype.isInCheck = function () {
@@ -69,5 +73,34 @@
 		});
 		
 		return moves;
+	};
+	
+	Team.prototype.removePieceIfThere = function (position) {
+		// When a piece from the opposing team takes one of the team's pieces, remove
+		// the piece from the team's roster.
+		var ind;
+		for (var i = 0; i < this.pieces.length; i++) {
+			if (Chess.Utils.equals(this.pieces[i].position, position)) {
+				ind = i;
+				break;
+			}
+		};
+		
+		// Remove the piece at that position, if there was one there.
+		if (ind) {
+			this.pieces = this.pieces.splice(ind, 1);
+		}
+	};
+	
+	Team.prototype.getBishopIfThereIsOne = function () {
+		// This is assumed to be called only if there are two pieces remaining on
+		// the team. It returns the Bishop or null.
+		if (this.pieces[0].getPieceType() === Chess.Bishop) {
+			return this.pieces[0];
+		}
+		if (this.pieces[1].getPieceType() === Chess.Bishop) {
+			return this.pieces[1];
+		}
+		return null;
 	};
 })();

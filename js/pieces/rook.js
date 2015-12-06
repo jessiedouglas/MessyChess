@@ -1,5 +1,7 @@
 ;(function () {
 	var Chess = window.Chess = window.Chess || {};
+	
+	var Vector = Chess.Utils.Vector;
 
 	var Rook = Chess.Rook = function Rook(color, position) {
 		// Instantiates a rook.

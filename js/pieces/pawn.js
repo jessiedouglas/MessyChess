@@ -21,14 +21,16 @@
 		// other pieces.
 		var moves = [];
 		if (!this.hasMoved) {
-			var longMove = Utils.add(this.position, new Vector(0, this.dir * 2));
-			if (Chess.board.isEmptyAt(longMove)) {
+			var longMovePos = Utils.add(this.position, new Vector(0, this.dir * 2));
+			if (Chess.board.isEmptyAt(longMovePos)) {
+				var longMove = new Chess.Move(this, longMovePos);
 				moves.push(longMove);
 			}
 		}
 
-		var shortMove = Utils.add(this.position, new Vector(0, this.dir * 1));
-		if (Chess.board.isEmptyAt(shortMove)) {
+		var shortMovePos = Utils.add(this.position, new Vector(0, this.dir * 1));
+		if (Chess.board.isEmptyAt(shortMovePos)) {
+			var shortMove = new Chess.Move(this, shortMovePos);
 			moves.push(shortMove);
 		}
 
@@ -36,9 +38,10 @@
 			new Vector(1, this.dir * 1),
 			new Vector(-1, this.dir * 1)
 		].forEach(function (delta) {
-			var move = Utils.add(this.position, delta);
-			var square = Chess.board.square(move)
+			var movePos = Utils.add(this.position, delta);
+			var square = Chess.board.square(movePos);
 			if (square && square.piece && square.piece.color !== this.color) {
+				var move = new Chess.Move(this, movePos);
 				moves.push(move);
 			}
 		}.bind(this));

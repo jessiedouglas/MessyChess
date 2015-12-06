@@ -9,6 +9,8 @@
 		this.position = position;
 	};
 
+	Piece.NAMES = ["King", "Queen", "Bishop", "Knight", "Rook", "Pawn"];
+
 	Piece.DIAG_DELTAS = [
 		new Vector(1, 1),
 		new Vector(1, -1),
@@ -22,6 +24,9 @@
 		new Vector(-1, 0),
 		new Vector(0, -1),
 	];
+
+	Piece.SPRITE = new Image();
+	Piece.SPRITE.src = 'assets/Chess_Pieces_Sprite.svg'
 
 	Piece.prototype.getValidMoves = function () {
 		// Finds all the valid moves for the piece. "Valid" moves takes into account
@@ -51,8 +56,9 @@
 		// color as the current piece.
 		var unoccupiedMoves = [];
 		moves.forEach(function (move) {
-			var piece = Chess.board.square(move).piece
-			if (!piece || piece.color !== this.color) {
+			var square = Chess.board.square(move.position);
+			var occupyingPiece = square.piece;
+			if (!occupyingPiece || occupyingPiece.color !== this.color) {
 				unoccupiedMoves.push(move);
 			}
 		}.bind(this));
@@ -89,14 +95,16 @@
 
 		var moves = [];
 		deltas.forEach(function (delta) {
-			var current = Chess.Utils.add(this.position, delta);
-			while (!Chess.board.isOffBoard(current) && Chess.board.isEmptyAt(current)) {
+			var newPos = Chess.Utils.add(this.position, delta);
+			while (!Chess.board.isOffBoard(newPos) && Chess.board.isEmptyAt(newPos)) {
 				// Advance the position in the direction of delta;
 				// add the new position to moves.
-				moves.push(current);
-				current = Chess.Utils.add(current, delta);
+				moves.push(new Chess.Move(this, newPos));
+				newPos = Chess.Utils.add(newPos, delta);
 			};
-			moves.push(current);
+			if(!Chess.board.isOffBoard(newPos)){
+				moves.push(new Chess.Move(this, newPos));
+			}
 		}.bind(this));
 
 		return moves;
@@ -117,8 +125,10 @@
 
 		var moves = [];
 		deltas.forEach(function (delta) {
-			var move = Chess.Utils.add(this.position, delta);
-			moves.push(move);
+			var newPos = Chess.Utils.add(this.position, delta);
+			if(!Chess.board.isOffBoard(newPos)){
+				moves.push(new Chess.Move(this, newPos));
+			}
 		}.bind(this));
 
 		return moves;

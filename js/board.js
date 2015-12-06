@@ -8,9 +8,11 @@
 		this.buildSquares();
 		this.conjurePieces(shouldPopulateTeams);
 		this.hasBeenWon = false;
+		// this.render();
 	};
 
 	Board.prototype.buildSquares = function () {
+		console.log("Building board");
 		this.squares = [];
 		var row;
 		for (var i = 0; i < 8; i++) {
@@ -23,13 +25,14 @@
 	};
 
 	Board.prototype.conjurePieces = function (shouldPopulateTeams) {
+		console.log("Conjuring Pieces");
 		// Create pieces, add them to the board, and add them to each team's roster.
-		
+
 		// Populate teams by default.
 		if (shouldPopulateTeams === undefined) {
 			shouldPopulateTeams = true;
 		}
-		
+
 		var pieces, pos, team;
 		var backRow = [
 			"Rook", "Knight", "Bishop", "Queen", "King", "Bishop", "Knight", "Rook"
@@ -63,12 +66,14 @@
 		return this.squares[position.y][position.x];
 	};
 
-	Board.prototype.movePiece = function (startPos, endPos) {
-		var piece = this.square(startPos).piece;
+	Board.prototype.makeMove = function (move) {
+		var piece = move.piece;
+		var newPos = move.position;
 
-		this.square(startPos).setPiece(null);
-		this.square(endPos).setPiece(piece);
-		piece.position = endPos;
+		this.square(piece.position).setPiece(null);
+		this.square(newPos).setPiece(piece);
+		piece.position = newPos;
+		console.log(piece.constructor.name + " to " + newPos.asBoardPosition());
 	};
 
 	Board.prototype.isEmptyAt = function (position) {
@@ -85,25 +90,25 @@
 		if (this.hasBeenWon) {
 			return true;
 		}
-		this.hasBeenWon = currentPlayer.isInCheck() && 
+		this.hasBeenWon = currentPlayer.isInCheck() &&
 		                  currentPlayer.validInCheckMoves().length === 0;
 		return this.hasBeenWon;
 	};
 
 	Board.prototype.isDraw = function () {
-		// Checks for draws through stalemate and insufficient materials, but not 
+		// Checks for draws through stalemate and insufficient materials, but not
 		// through threefold repetition or the fifty move rule.
 		var white = Chess.whiteTeam;
 		var black = Chess.blackTeam;
-		
+
 		// Check for stalemate.
 		var players = [white, black];
 		for (var i = 0; i < players.length; i++) {
 			if (players[i].allMoves().length === 0 && !players[i].isInCheck()) {
 				return true;
-			} 
+			}
 		};
-		
+
 		// Check for insufficient materials.
 		var first, second;
 		if (white.pieces.length === 1 && black.pieces.length === 1){
@@ -147,26 +152,33 @@
 	Board.prototype.deepDup = function () {
 		var pos, piece, pieceType, newPiece;
 		var newBoard = new Board(false);
-		for (var y = 0; y < this.squares.length; y++) {
-			for (var x = 0; x < this.squares[y].length; x++) {
-				pos = new Vector(x, y);
-				piece = this.square(pos).piece;
-				if (!!piece) {
-					pieceType = piece.getPieceType();
-					newPiece = new pieceType(piece.color, pos);
-					newBoard.square(pos).setPiece(newPiece);
-				} else {
-					newBoard.square(pos).setPiece(null);
-				}
-			};
-		};
+		this.forEachSquare(function(square){
+			piece = square.piece;
+			if (!!piece) {
+				pieceType = piece.getPieceType();
+				newPiece = new pieceType(piece.color, pos);
+				newBoard.square(pos).setPiece(newPiece);
+			} else {
+				newBoard.square(pos).setPiece(null);
+			}
+		});
 
 		return newBoard;
 	};
-	
+
+	Board.prototype.forEachSquare = function (callback) {
+		for (var y = 0; y < this.squares.length; y++) {
+			for (var x = 0; x < this.squares[y].length; x++) {
+				pos = new Vector(x, y);
+				square = this.square(pos);
+				callback(square);
+			}
+		}
+	};
+
 	Board.prototype.toString = function () {
 		var boardString = "", squareString;
-		this.squares.forEach(function (square){
+		this.forEachSquare(function (square){
 			if (square.piece) {
 				squareString = square.piece.color + square.piece.constructor.name + ",";
 			} else {
@@ -174,28 +186,50 @@
 			}
 			boardString += squareString;
 		});
+		return boardString;
 		// TODO: Add logic for whether each team can castle.
 	};
 
-	Board.prototype.render = function () {
-		this.el.innerHTML = "";
-
-		var squares = Chess.board.squares;
-		for (var i = 0; i < squares.length; i++) {
-			this.renderRow(squares[i], i);
+	Board.prototype.renderOnCanvas = function (ctx) {
+		for (var i = 0; i < this.squares.length; i++) {
+			this.renderRow(this.squares[i], i);
 		};
 	};
 
-	Board.prototype.renderRow = function (row, row_i) {
-		var position, piece, image, html, el, fullText;
+	Board.prototype.renderRowOnCanvas = function (row, row_i) {
+		var position, piece;
 
 		for (var j = 0; j < row.length; j++) {
 			position = new Vector(j, row_i);
-			piece = Chess.board.square(position).piece;
-			image = !!piece ? piece.image() : '';
-			html = Chess.Utils.Template.squareView(position, image);
-			this.el.insertAdjacentElement('beforeend', html);
-		};
+			piece = this.square(position).piece;
+			if (piece) {
+				Chess.renderer.renderPiece(piece);
+			}
+		}
+	};
+
+	Board.prototype.render = function () {
+		// this.el.innerHTML = "";
+		//
+		// var squares = Chess.board.squares;
+		// for (var i = 0; i < squares.length; i++) {
+		// 	this.renderRow(squares[i], i);
+		// };
+		Chess.renderer.renderBoard();
+		this.renderOnCanvas();
+	};
+
+	Board.prototype.renderRow = function (row, row_i) {
+		// var position, piece, image, html, el, fullText;
+		//
+		// for (var j = 0; j < row.length; j++) {
+		// 	position = new Vector(j, row_i);
+		// 	piece = Chess.board.square(position).piece;
+		// 	image = !!piece ? piece.image() : '';
+		// 	html = Chess.Utils.Template.squareView(position, image);
+		// 	this.el.insertAdjacentElement('beforeend', html);
+		// };
+		this.renderRowOnCanvas(row, row_i);
 	};
 
 	var Square = Chess.Square = function (piece) {

@@ -15,13 +15,20 @@
 		this.y = y;
 	};
 
+	Vector.prototype.asBoardPosition = function () {
+		var columns = 'abcdefgh'.split("");
+		var column = columns[this.x];
+		var row = this.y + 1;
+		return column + row;
+	};
+
 	var add = Utils.add = function(vector1, vector2) {
 		var newX = vector1.x + vector2.x;
 		var newY = vector1.y + vector2.y;
 
 		return new Vector(newX, newY);
 	};
-	
+
 	var equal = Utils.equal = function(vector1, vector2) {
 		var xEqual = vector1.x === vector2.x;
 		var yEqual = vector1.y === vector2.y;
@@ -34,10 +41,10 @@
 
 		return new Vector(newX, newY);
 	};
-	
-	
+
+
   var Template = Utils.Template = {};
-	
+
 	Template.squareView = function (position, image) {
 		var image = image || document.createTextNode('');
 		var posValue = position.x + position.y;

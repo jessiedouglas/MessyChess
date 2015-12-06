@@ -34,3 +34,12 @@ div.black-square, div.white-square {
 div.black-square {
 	background: #ddd;
 }
+
+/* CANVAS BOARD */
+canvas#chessboard-canvas {
+	width: 400px;
+	height: 400px;
+	border: 15px solid sienna;
+	background: navajowhite;
+	margin: 50px;
+}

@@ -4,12 +4,14 @@
 	<link rel="stylesheet" href="index.css" type="text/css" media="screen">
 </head>
 <body>
-	<div id="chessboard" class="group" width="400px" height="400px">
-	</div>
+	<!-- <div id="chessboard" class="group" width="400px" height="400px">
+	</div> -->
+	<canvas id="chessboard-canvas" width="400px" height="400px"></canvas>
 	<script src="js/utils.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/board.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/team.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/piece.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/move.js" type="text/javascript" charset="utf-8"></script>
   <script src="js/pieces/bishop.js" type="text/javascript" charset="utf-8"></script>
   <script src="js/pieces/king.js" type="text/javascript" charset="utf-8"></script>
   <script src="js/pieces/knight.js" type="text/javascript" charset="utf-8"></script>
@@ -17,16 +19,21 @@
   <script src="js/pieces/queen.js" type="text/javascript" charset="utf-8"></script>
   <script src="js/pieces/rook.js" type="text/javascript" charset="utf-8"></script>
   <script src="js/game.js" type="text/javascript" charset="utf-8"></script>
+  <script src="js/renderer.js" type="text/javascript" charset="utf-8"></script>
 	<script>
-		// document.ready(function () {
-			var Chess = window.Chess,
-			    Team = Chess.Team,
-			    Game = Chess.Game;
+		var Chess = window.Chess,
+		    Team = Chess.Team,
+		    Game = Chess.Game,
+				Renderer = Chess.Renderer;
 
-			Chess.whiteTeam = new Team("W");
-			Chess.blackTeam = new Team("B");
-			var game = new Game();
-// 			game.play();
-// 		});
+		Chess.whiteTeam = new Team("W");
+		Chess.blackTeam = new Team("B");
+
+		var canvas = document.getElementById("chessboard-canvas");
+		Chess.renderer = new Renderer(canvas);
+		var game = new Game();
+		Chess.Piece.SPRITE.onload = function () {
+			game.play();
+		};
 	</script>
 </body>

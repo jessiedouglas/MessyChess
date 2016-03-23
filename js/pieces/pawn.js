@@ -22,14 +22,14 @@
 		var moves = [];
 		if (!this.hasMoved) {
 			var longMovePos = Utils.add(this.position, new Vector(0, this.dir * 2));
-			if (Chess.board.isEmptyAt(longMovePos)) {
+			if (!Chess.board.isOffBoard(longMovePos) && Chess.board.isEmptyAt(longMovePos)) {
 				var longMove = new Chess.Move(this, longMovePos);
 				moves.push(longMove);
 			}
 		}
 
 		var shortMovePos = Utils.add(this.position, new Vector(0, this.dir * 1));
-		if (Chess.board.isEmptyAt(shortMovePos)) {
+		if (!Chess.board.isOffBoard(shortMovePos) && Chess.board.isEmptyAt(shortMovePos)) {
 			var shortMove = new Chess.Move(this, shortMovePos);
 			moves.push(shortMove);
 		}
@@ -39,10 +39,12 @@
 			new Vector(-1, this.dir * 1)
 		].forEach(function (delta) {
 			var movePos = Utils.add(this.position, delta);
-			var square = Chess.board.square(movePos);
-			if (square && square.piece && square.piece.color !== this.color) {
-				var move = new Chess.Move(this, movePos);
-				moves.push(move);
+			if(!Chess.board.isOffBoard(movePos)){
+				var square = Chess.board.square(movePos);
+				if (square && square.piece && square.piece.color !== this.color) {
+					var move = new Chess.Move(this, movePos);
+					moves.push(move);
+				}
 			}
 		}.bind(this));
 

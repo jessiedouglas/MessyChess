@@ -5,34 +5,46 @@
     this.color = color;
 		this.pieces = [];
 		this.king = null; // Must be set later.
+		this.isHumanPlayer = false;
   };
 
 	Team.COLORS = ["W", "B"];
 
-	Team.prototype.move = function () {
-		var position;
-		// if (this.isInCheck()) {
-		// 	// move the king
-		// } else {
-		move = this.getRandomMove();
-		// }
+	Team.prototype.move = function (playerMove) {
+		var move;
+		if(playerMove){
+			move = playerMove;
+		} else {
+			move = this.getComputerMove();
+		}
 
 		// If a piece has been taken, remove it from the other team's roster.
 		this.opponent().removePieceIfThere(move.position);
 		Chess.board.makeMove(move);
 	};
 
-	Team.prototype.getRandomMove = function () {
-		var allMoves = this.allMoves();
-		var randomMoveIdx = Math.floor(Math.random() * allMoves.length);
-		return allMoves[randomMoveIdx];
+	Team.prototype.getComputerMove = function () {
+		var move;
+		if (this.isInCheck()) {
+			console.log("Check");
+			var inCheckMoves = this.validInCheckMoves();
+			move = Chess.Utils.sample(inCheckMoves);
+		} else {
+			var allMoves = this.allMoves();
+			move = Chess.Utils.sample(allMoves);
+		}
+		return move;
+	};
+
+	Team.prototype.getHumanMove = function () {
+		console.log(this.color + "'s turn");
 	};
 
 	Team.prototype.isInCheck = function () {
 		var opponent = this.opponent();
 		var checked = false;
 		opponent.allMoves().forEach(function (move) {
-			if (Chess.Utils.equal(move, this.king.position)) {
+			if (Chess.Utils.equal(move.position, this.king.position)) {
 				checked = true;
 			}
 		}.bind(this));
@@ -49,13 +61,16 @@
 
 		possibleKingMoves.forEach(function (move) {
 			// Make a duplicate board for experimentation
-			fakeBoard = Chess.board.deepDup();
+			fakeBoard = realBoard.deepDup();
+			fakeBoard.isFake = true;
 			// Set this.king and Chess.board to correspond with our fake board.
-			this.king = fakeBoard.square(this.king.position).piece
+			this.king = fakeBoard.square(realKing.position).piece
+			move.piece = this.king;
 			Chess.board = fakeBoard;
 
-			Chess.board.movePiece(this.king.position, move);
+			Chess.board.makeMove(move);
 			if (!this.isInCheck()) {
+				move.piece = realKing;
 				outOfCheckKingMoves.push(move);
 			}
 		}.bind(this));
@@ -97,7 +112,7 @@
 
 		// Remove the piece at that position, if there was one there.
 		if (ind) {
-			this.pieces = this.pieces.splice(ind, 1);
+			this.pieces.splice(ind, 1);
 		}
 	};
 

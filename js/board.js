@@ -8,6 +8,7 @@
 		this.buildSquares();
 		this.conjurePieces(shouldPopulateTeams);
 		this.hasBeenWon = false;
+		this.selectedSquare = false;
 		// this.render();
 	};
 
@@ -73,11 +74,16 @@
 		this.square(piece.position).setPiece(null);
 		this.square(newPos).setPiece(piece);
 		piece.position = newPos;
+		piece.hasMoved = true;
 		console.log(piece.constructor.name + " to " + newPos.asBoardPosition());
 	};
 
+	Board.prototype.pieceAt = function (position) {
+		return this.square(position).piece;
+	};
+
 	Board.prototype.isEmptyAt = function (position) {
-		return this.square(position).piece === null;
+		return this.pieceAt(position) === null;
 	};
 
 	Board.prototype.isOffBoard = function (position) {
@@ -152,16 +158,18 @@
 	Board.prototype.deepDup = function () {
 		var pos, piece, pieceType, newPiece;
 		var newBoard = new Board(false);
-		this.forEachSquare(function(square){
+		this.forEachPosition(function(position){
+			square = this.square(position);
 			piece = square.piece;
 			if (!!piece) {
 				pieceType = piece.getPieceType();
-				newPiece = new pieceType(piece.color, pos);
-				newBoard.square(pos).setPiece(newPiece);
+				newPiece = new pieceType(piece.color, position);
+				newPiece.isFake = true;
+				newBoard.square(position).setPiece(newPiece);
 			} else {
-				newBoard.square(pos).setPiece(null);
+				newBoard.square(position).setPiece(null);
 			}
-		});
+		}.bind(this));
 
 		return newBoard;
 	};
@@ -172,6 +180,15 @@
 				pos = new Vector(x, y);
 				square = this.square(pos);
 				callback(square);
+			}
+		}
+	};
+
+	Board.prototype.forEachPosition = function (callback) {
+		for (var y = 0; y < this.squares.length; y++) {
+			for (var x = 0; x < this.squares[y].length; x++) {
+				pos = new Vector(x, y);
+				callback(pos);
 			}
 		}
 	};

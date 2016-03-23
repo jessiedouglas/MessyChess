@@ -8,27 +8,37 @@
 		this.numNonrelevantMoves = 0; // Keep track for fifty move rule.
 	};
 
-	Game.prototype.play = function () {
-		Chess.board.render();
-
-		while (!this.isOver()) {
-			// Add current board to this.moves.
-			// TODO: Don't add if en passant is possible.
-			var currentBoard = Chess.board.toString();
-			this.moves[currentBoard] = this.moves[currentBoard] || 0;
-			this.moves[currentBoard]++;
-
-			this.currentPlayer.move();
-			// TODO: Add logic for this.numNonrelevantMoves (fifty move rule).
-			Chess.board.render();
-			debugger;
-			this.switchCurrentPlayer();
-		};
-
-		if (Chess.board.isWon(this.currentPlayer)) {
-			console.log("Game Over");
-			var winner = this.currentPlayer.opponent();
+	Game.prototype.handleClick = function (clickEvent) {
+		if(this.currentPlayer.isHumanPlayer){
+			var offset = new Chess.Utils.Vector(clickEvent.offsetX, clickEvent.offsetY);
+			var clickedSquare = Chess.Renderer.squarePosFromOffset(offset);
+			if(this.movingPiece) {
+				var move = new Chess.Move(this.movingPiece, clickedSquare);
+				if(move.isValid){
+					this.move(move);
+					this.move();
+				} else {
+					console.log("Invalid move")
+				}
+				this.movingPiece = null;
+			} else {
+				this.movingPiece = Chess.board.pieceAt(clickedSquare);
+				console.log(this.movingPiece);
+			}
 		}
+	};
+
+	Game.prototype.move = function (move) {
+		// Add current board to this.moves.
+		// TODO: Don't add if en passant is possible.
+		var currentBoard = Chess.board.toString();
+		this.moves[currentBoard] = this.moves[currentBoard] || 0;
+		this.moves[currentBoard]++;
+
+		this.currentPlayer.move(move);
+		// TODO: Add logic for this.numNonrelevantMoves (fifty move rule).
+		this.switchCurrentPlayer();
+		Chess.board.render();
 	};
 
 	Game.prototype.switchCurrentPlayer = function () {

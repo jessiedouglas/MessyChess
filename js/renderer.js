@@ -29,6 +29,13 @@
     return new Vector(posX, posY);
   };
 
+  Renderer.squarePosFromOffset = function (offset) {
+    console.log(offset);
+    var posX = Math.floor(offset.x / this.BOARD_SQUARE_SIZE.x);
+    var posY = Math.floor(offset.y / this.BOARD_SQUARE_SIZE.y);
+    return new Vector(posX, posY);
+  };
+
 
   Renderer.prototype.renderPiece = function (piece) {
     var spritePosition = Renderer.spritePositionOf(piece);

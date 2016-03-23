@@ -27,13 +27,15 @@
 				Renderer = Chess.Renderer;
 
 		Chess.whiteTeam = new Team("W");
+		Chess.whiteTeam.isHumanPlayer = true;
 		Chess.blackTeam = new Team("B");
 
 		var canvas = document.getElementById("chessboard-canvas");
 		Chess.renderer = new Renderer(canvas);
 		var game = new Game();
+		canvas.onclick = game.handleClick.bind(game);
 		Chess.Piece.SPRITE.onload = function () {
-			game.play();
+			Chess.board.render();
 		};
 	</script>
 </body>

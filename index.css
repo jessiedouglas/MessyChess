@@ -39,7 +39,6 @@ div.black-square {
 canvas#chessboard-canvas {
 	width: 400px;
 	height: 400px;
-	border: 15px solid sienna;
 	background: navajowhite;
 	margin: 50px;
 }

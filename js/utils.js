@@ -18,7 +18,7 @@
 	Vector.prototype.asBoardPosition = function () {
 		var columns = 'abcdefgh'.split("");
 		var column = columns[this.x];
-		var row = this.y + 1;
+		var row = 8 - this.y;
 		return column + row;
 	};
 
@@ -42,6 +42,10 @@
 		return new Vector(newX, newY);
 	};
 
+	var sample = Utils.sample = function(array) {
+		var randomIdx = Math.floor(Math.random() * array.length);
+		return array[randomIdx];
+	};
 
   var Template = Utils.Template = {};
 
